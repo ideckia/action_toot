@@ -2,7 +2,7 @@
 
 ## Definition
 
-TODO
+Publish a predefined text to a mastodon instance
 
 ## Properties
 
