@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    env:
+      CMD_NAME: toot
+      HAXE_VERSION: latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install lix, haxe ${{ env.HAXE_VERSION }} and dependencies
+      run: |
+            npm i -g lix
+            lix install haxe ${{ env.HAXE_VERSION }}
+            lix download
+
+    - name: Compile project
+      run: haxe deploy.hxml
+
+    - name: Package to release
+      run: |
+        mkdir ${{ env.CMD_NAME }}
+        mv index.js ${{ env.CMD_NAME }}
+        mv presets.json ${{ env.CMD_NAME }}
+        mv readme.md ${{ env.CMD_NAME }}
+        zip -r ${{ env.CMD_NAME }} ${{ env.CMD_NAME }}
+
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: ${{ env.CMD_NAME }}.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

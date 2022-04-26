@@ -1,0 +1,10 @@
+[
+	{
+		"name": "Toot",
+		"props": {
+			"server": "::server::",
+			"accessToken": "::access_token::",
+			"tootText": "Hello from Ideckia"
+		}
+	}
+]
