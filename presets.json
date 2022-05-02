@@ -1,10 +1,21 @@
 [
 	{
-		"name": "Toot",
+		"name": "Basic toot",
 		"props": {
-			"server": "::server::",
-			"accessToken": "::access_token::",
-			"tootText": "Hello from Ideckia"
+			"server": "$toot.server",
+			"accessToken": "$toot.accessToken",
+			"tootText": "::toot_text::"
+		}
+	},
+	{
+		"name": "Toot with images",
+		"props": {
+			"server": "$toot.server",
+			"accessToken": "$toot.accessToken",
+			"tootText": "::toot_text::",
+			"tootImagePaths": [
+				"/path/to/image.jpg"
+			]
 		}
 	}
 ]
