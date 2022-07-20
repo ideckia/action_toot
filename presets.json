@@ -17,5 +17,15 @@
 				"/path/to/image.jpg"
 			]
 		}
+	},
+	{
+		"name": "Toot with images (ask every time for the text)",
+		"props": {
+			"server": "$toot.server",
+			"accessToken": "$toot.accessToken",
+			"tootImagePaths": [
+				"/path/to/image.jpg"
+			]
+		}
 	}
 ]
