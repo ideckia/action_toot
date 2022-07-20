@@ -48,32 +48,55 @@ class Toot extends IdeckiaAction {
 	}
 
 	public function execute(currentState:ItemState):js.lib.Promise<ItemState> {
-		return new js.lib.Promise((resolve, reject) -> {
+		return new js.lib.Promise<ItemState>((resolve, reject) -> {
+			var tootText = props.tootText;
+
 			var tootData = {
-				status: props.tootText,
+				status: tootText,
 				media_ids: []
 			};
-			function toot() {
-				postStatus(tootData).then((d) -> server.log.debug("Mastodon publish response: " + d)).catchError(reject);
+
+			function postToot() {
+				postStatus(tootData).then(d -> {
+					server.log.debug("Mastodon publish response: " + d);
+					resolve(currentState);
+				}).catchError(reject);
 			}
 
+			if (tootText == '') {
+				server.dialog.entry('Toot text', 'What text will you toot?').then(newTootText -> {
+					tootData.status = newTootText;
+					processMedia().then(mediaIds -> {
+						tootData.media_ids = mediaIds;
+						postToot();
+					}).catchError(reject);
+				});
+			} else {
+				processMedia().then(mediaIds -> {
+					tootData.media_ids = mediaIds;
+					postToot();
+				}).catchError(reject);
+			}
+		});
+	}
+
+	function processMedia() {
+		return new js.lib.Promise<Array<String>>((resolve, reject) -> {
 			if (props.tootImagePaths.length != 0) {
-				var mediaPromises = [];
-				for (p in props.tootImagePaths) {
-					mediaPromises.push(uploadMedia(p));
-				}
+				var mediaPromises = [
+					for (p in props.tootImagePaths)
+						uploadMedia(p)
+				];
 
 				js.lib.Promise.all(mediaPromises).then(attachments -> {
-					for (a in attachments)
-						tootData.media_ids.push(a.id);
-
-					toot();
+					resolve([
+						for (a in attachments)
+							a.id
+					]);
 				}).catchError(reject);
 			} else {
-				toot();
+				resolve([]);
 			}
-
-			resolve(currentState);
 		});
 	}
 
