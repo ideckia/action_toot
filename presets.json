@@ -3,17 +3,17 @@
 		"name": "Basic toot",
 		"props": {
 			"server": "$toot.server",
-			"accessToken": "$toot.accessToken",
-			"tootText": "::toot_text::"
+			"access_token": "$toot.accessToken",
+			"toot_text": "::toot_text::"
 		}
 	},
 	{
 		"name": "Toot with images",
 		"props": {
 			"server": "$toot.server",
-			"accessToken": "$toot.accessToken",
-			"tootText": "::toot_text::",
-			"tootImagePaths": [
+			"access_token": "$toot.accessToken",
+			"toot_text": "::toot_text::",
+			"toot_image_paths": [
 				"/path/to/image.jpg"
 			]
 		}
@@ -22,8 +22,8 @@
 		"name": "Toot with images (ask every time for the text)",
 		"props": {
 			"server": "$toot.server",
-			"accessToken": "$toot.accessToken",
-			"tootImagePaths": [
+			"access_token": "$toot.accessToken",
+			"toot_image_paths": [
 				"/path/to/image.jpg"
 			]
 		}

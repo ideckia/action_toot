@@ -11,11 +11,11 @@ typedef Props = {
 	var server:String;
 	@:shared
 	@:editable("Access token value")
-	var accessToken:String;
+	var access_token:String;
 	@:editable("Text to publish")
-	var tootText:String;
+	var toot_text:String;
 	@:editable("Image paths", [])
-	var tootImagePaths:Array<String>;
+	var toot_image_paths:Array<String>;
 }
 
 typedef Attachment = {
@@ -49,7 +49,7 @@ class Toot extends IdeckiaAction {
 
 	public function execute(currentState:ItemState):js.lib.Promise<ItemState> {
 		return new js.lib.Promise<ItemState>((resolve, reject) -> {
-			var tootText = props.tootText;
+			var tootText = props.toot_text;
 
 			var tootData = {
 				status: tootText,
@@ -82,9 +82,9 @@ class Toot extends IdeckiaAction {
 
 	function processMedia() {
 		return new js.lib.Promise<Array<String>>((resolve, reject) -> {
-			if (props.tootImagePaths.length != 0) {
+			if (props.toot_image_paths.length != 0) {
 				var mediaPromises = [
-					for (p in props.tootImagePaths)
+					for (p in props.toot_image_paths)
 						uploadMedia(p)
 				];
 
@@ -103,7 +103,7 @@ class Toot extends IdeckiaAction {
 	function prepareRequest(path:String) {
 		var endpoint = props.server + '$API_URL/$path';
 		var http = new haxe.Http(endpoint);
-		http.addHeader('Authorization', 'Bearer ${props.accessToken}');
+		http.addHeader('Authorization', 'Bearer ${props.access_token}');
 		return http;
 	}
 
