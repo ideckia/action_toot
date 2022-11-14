@@ -64,12 +64,16 @@ class Toot extends IdeckiaAction {
 			}
 
 			if (tootText == '') {
-				server.dialog.entry('Toot text', 'What text will you toot?').then(newTootText -> {
-					tootData.status = newTootText;
-					processMedia().then(mediaIds -> {
-						tootData.media_ids = mediaIds;
-						postToot();
-					}).catchError(reject);
+				server.dialog.entry('Toot text', 'What text will you toot?').then(response -> {
+					switch response {
+						case Some(text):
+							tootData.status = text;
+							processMedia().then(mediaIds -> {
+								tootData.media_ids = mediaIds;
+								postToot();
+							}).catchError(reject);
+						case None:
+					}
 				});
 			} else {
 				processMedia().then(mediaIds -> {
