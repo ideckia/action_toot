@@ -1,4 +1,4 @@
-# Action for ideckia: toot
+# Action for [ideckia](https://ideckia.github.io/): toot
 
 ## Definition
 
