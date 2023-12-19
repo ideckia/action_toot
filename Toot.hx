@@ -6,10 +6,10 @@ using StringTools;
 using api.IdeckiaApi;
 
 typedef Props = {
-	@:shared
+	@:shared('mastodon.server')
 	@:editable("Server of the Mastodon instance", "https://mastodon.social")
 	var server:String;
-	@:shared
+	@:shared('mastodon.token')
 	@:editable("Access token value")
 	var access_token:String;
 	@:editable("Text to publish")
@@ -47,8 +47,8 @@ class Toot extends IdeckiaAction {
 		return super.init(initialState);
 	}
 
-	public function execute(currentState:ItemState):js.lib.Promise<ItemState> {
-		return new js.lib.Promise<ItemState>((resolve, reject) -> {
+	public function execute(currentState:ItemState):js.lib.Promise<ActionOutcome> {
+		return new js.lib.Promise((resolve, reject) -> {
 			var tootText = props.toot_text;
 
 			var tootData = {
@@ -59,7 +59,7 @@ class Toot extends IdeckiaAction {
 			function postToot() {
 				postStatus(tootData).then(d -> {
 					server.log.debug("Mastodon publish response: " + d);
-					resolve(currentState);
+					resolve(new ActionOutcome({state: currentState}));
 				}).catchError(reject);
 			}
 
