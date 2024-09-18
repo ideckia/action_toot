@@ -1,0 +1,30 @@
+[
+	{
+		"id": "action_description",
+		"text": "Publish a toot in mastodon"
+	},
+	{
+		"id": "prop_server",
+		"text": "Server of the Mastodon instance"
+	},
+	{
+		"id": "prop_access_token",
+		"text": "Access token value"
+	},
+	{
+		"id": "prop_toot_text",
+		"text": "Text to publish"
+	},
+	{
+		"id": "prop_toot_image_paths",
+		"text": "Image paths"
+	},
+	{
+		"id": "dialog_toot_text_title",
+		"text": "Toot text"
+	},
+	{
+		"id": "dialog_toot_text_body",
+		"text": "What text will you toot?"
+	}
+]

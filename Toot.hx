@@ -7,14 +7,14 @@ using api.IdeckiaApi;
 
 typedef Props = {
 	@:shared('mastodon.server')
-	@:editable("Server of the Mastodon instance", "https://mastodon.social")
+	@:editable("prop_server", "https://mastodon.social")
 	var server:String;
 	@:shared('mastodon.token')
-	@:editable("Access token value")
+	@:editable("prop_access_token")
 	var access_token:String;
-	@:editable("Text to publish")
+	@:editable("prop_toot_text")
 	var toot_text:String;
-	@:editable("Image paths", [])
+	@:editable("prop_toot_image_paths")
 	var toot_image_paths:Array<String>;
 }
 
@@ -34,7 +34,8 @@ typedef Attachment = {
 }
 
 @:name("toot")
-@:description("Publish a toot in mastodon")
+@:description("action_description")
+@:localize
 class Toot extends IdeckiaAction {
 	static inline final API_URL:String = 'api/v1';
 	static inline final STATUSES_PATH:String = 'statuses';
@@ -58,13 +59,13 @@ class Toot extends IdeckiaAction {
 
 			function postToot() {
 				postStatus(tootData).then(d -> {
-					server.log.debug("Mastodon publish response: " + d);
+					core.log.debug("Mastodon publish response: " + d);
 					resolve(new ActionOutcome({state: currentState}));
 				}).catchError(reject);
 			}
 
 			if (tootText == '') {
-				server.dialog.entry('Toot text', 'What text will you toot?').then(response -> {
+				core.dialog.entry(Loc.dialog_toot_text_title.tr(), Loc.dialog_toot_text_body.tr()).then(response -> {
 					switch response {
 						case Some(text):
 							tootData.status = text;
@@ -86,7 +87,7 @@ class Toot extends IdeckiaAction {
 
 	function processMedia() {
 		return new js.lib.Promise<Array<String>>((resolve, reject) -> {
-			if (props.toot_image_paths.length != 0) {
+			if (props.toot_image_paths != null && props.toot_image_paths.length != 0) {
 				var mediaPromises = [
 					for (p in props.toot_image_paths)
 						uploadMedia(p)
@@ -135,7 +136,7 @@ class Toot extends IdeckiaAction {
 			http.onError = (e) -> reject('Error uploading media [$filePath]: $e.');
 			http.onData = (d) -> {
 				var attachment:Attachment = haxe.Json.parse(d);
-				server.log.debug('Uploaded attachment: ${attachment.id}');
+				core.log.debug('Uploaded attachment: ${attachment.id}');
 				resolve(attachment);
 			}
 			http.request(true);

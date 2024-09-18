@@ -1,0 +1,30 @@
+[
+	{
+		"id": "action_description",
+		"text": "Mastodon-en toot bat publikatu"
+	},
+	{
+		"id": "prop_server",
+		"text": "Mastodonen instantziaren zerbitzaria"
+	},
+	{
+		"id": "prop_access_token",
+		"text": "Sarbide token balioa"
+	},
+	{
+		"id": "prop_toot_text",
+		"text": "Publikatzeko testua"
+	},
+	{
+		"id": "prop_toot_image_paths",
+		"text": "Irudien bideak"
+	},
+	{
+		"id": "dialog_toot_text_title",
+		"text": "Toot testua"
+	},
+	{
+		"id": "dialog_toot_text_body",
+		"text": "Zein testu idatzi nahi duzu toot-ean?"
+	}
+]
