@@ -67,8 +67,8 @@ class Toot extends IdeckiaAction {
 			if (tootText == '') {
 				core.dialog.entry(Loc.dialog_toot_text_title.tr(), Loc.dialog_toot_text_body.tr()).then(response -> {
 					switch response {
-						case Some(text):
-							tootData.status = text;
+						case Some(t):
+							tootData.status = t;
 							processMedia().then(mediaIds -> {
 								tootData.media_ids = mediaIds;
 								postToot();
